@@ -1,0 +1,154 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  .profile-container {
+    min-height: 100vh;
+    background-color: #111827;
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem;
+  }
+
+  .profile-card {
+    width: 100%;
+    max-width: 42rem;
+    background-color: #1f2937;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+
+  .profile-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 0.75rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1d5db;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    color: #f3f4f6;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.875rem;
+    color: #f87171;
+  }
+
+  .button-group {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+  }
+
+  .btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+  }
+
+  .btn-secondary {
+    background-color: #374151;
+    color: #ffffff;
+  }
+
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+
+  .non-field-errors {
+    background-color: #7f1d1d;
+    border: 1px solid #991b1b;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: #fecaca;
+  }
+
+  .non-field-errors ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <h1 class="profile-title">
+      {% if form.instance.pk %}Edit{% else %}Create{% endif %} Student
+    </h1>
+
+    <form method="post" novalidate>
+      {% csrf_token %} {% if form.non_field_errors %}
+      <div class="non-field-errors">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="form-body">
+        {% for field in form %}
+        <div class="form-group">
+          {{ field.label_tag }} {{ field }} {% if field.help_text %}
+          <small class="text-muted">{{ field.help_text }}</small>
+          {% endif %} {{ field.errors }}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'students:list' %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

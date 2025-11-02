@@ -1,0 +1,171 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  .profile-container {
+    min-height: 100vh;
+    background-color: #111827;
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem;
+  }
+
+  .profile-card {
+    width: 100%;
+    max-width: 28rem;
+    background-color: #1f2937;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+
+  .profile-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 0.75rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #d1d5db;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    color: #f3f4f6;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.875rem;
+    color: #f87171;
+  }
+
+  .button-group {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: background-color 0.2s;
+  }
+
+  .btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+  }
+
+  .btn-link {
+    background-color: transparent;
+    color: #3b82f6;
+    padding: 0.5rem;
+  }
+
+  .btn-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .non-field-errors {
+    background-color: #7f1d1d;
+    border: 1px solid #991b1b;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: #fecaca;
+  }
+
+  .non-field-errors ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <h2 class="profile-title">Register</h2>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+      <div class="non-field-errors">
+        {{ form.non_field_errors }}
+      </div>
+      {% endif %}
+
+      <div class="form-group">
+        {{ form.username.label_tag }} 
+        {{ form.username }} 
+        {{ form.username.errors }}
+      </div>
+
+      <div class="form-group">
+        {{ form.email.label_tag }} 
+        {{ form.email }} 
+        {{ form.email.errors }}
+      </div>
+
+      <div class="form-group">
+        {{ form.password1.label_tag }} 
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+      </div>
+
+      <div class="form-group">
+        {{ form.password2.label_tag }} 
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Create account</button>
+        <a href="{% url 'accounts:login' %}" class="btn btn-link">Already have an account?</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

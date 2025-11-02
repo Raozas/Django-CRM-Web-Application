@@ -1,0 +1,205 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<style>
+  .profile-container {
+    min-height: 100vh;
+    background-color: #111827;
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 0;
+  }
+
+  .profile-card {
+    width: 100%;
+    max-width: 56rem;
+    background-color: #1f2937;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+
+  .profile-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 0.75rem;
+  }
+
+  .profile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar-wrapper {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 9999px;
+    border: 4px solid #374151;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .avatar-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .user-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+
+  .user-badge {
+    color: #4ade80;
+    margin-top: 0.25rem;
+  }
+
+  .details-section {
+    flex: 1;
+    background-color: #1a1f2e;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    width: 100%;
+  }
+
+  .details-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #f3f4f6;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 0.5rem;
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.75rem 0;
+    color: #d1d5db;
+  }
+
+  .details-grid span {
+    color: #9ca3af;
+  }
+
+  .status-active {
+    color: #4ade80;
+    font-weight: 600;
+  }
+
+  .status-inactive {
+    color: #f87171;
+    font-weight: 600;
+  }
+
+  .button-group {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background-color: #2563eb;
+    color: #ffffff;
+  }
+
+  .btn-primary:hover {
+    background-color: #1d4ed8;
+  }
+
+  .btn-secondary {
+    background-color: #374151;
+    color: #ffffff;
+  }
+
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+
+  @media (min-width: 768px) {
+    .profile-content {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .details-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>
+
+<div class="profile-container">
+  <div class="profile-card">
+    <h1 class="profile-title">Profile</h1>
+
+    <div class="profile-content">
+      <!-- Avatar -->
+      <div class="avatar-section">
+        <div class="avatar-wrapper">
+          <img
+            src="{% static 'images/avatar.png' %}"
+            alt="Profile Image"
+            class="avatar-img"
+          />
+        </div>
+        <h2 class="user-name">
+          {{ user.first_name }} {{ user.last_name }}
+        </h2>
+        <p class="user-badge">Premium User</p>
+      </div>
+
+      <!-- Bio / Details -->
+      <div class="details-section">
+        <h3 class="details-title">Bio & Other Details</h3>
+        <div class="details-grid">
+          <p>
+            <span>Username:</span> {{ user.username }}
+          </p>
+          <p><span>Email:</span> {{ user.email }}</p>
+          <p>
+            <span>Joined:</span> {{ user.date_joined|date:"Y-m-d" }}
+          </p>
+          <p>
+            <span>Status:</span>
+            {% if user.is_active %}
+            <span class="status-active">Active</span>
+            {% else %}
+            <span class="status-inactive">Inactive</span>
+            {% endif %}
+          </p>
+        </div>
+        <div class="button-group">
+          <a href="{% url 'accounts:edit_profile' %}" class="btn btn-primary"
+            >Edit Profile</a
+          >
+          <a href="{% url 'accounts:logout' %}" class="btn btn-secondary"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
